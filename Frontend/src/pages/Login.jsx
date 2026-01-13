@@ -64,11 +64,17 @@ const Login = () => {
       <input onChange={(e)=>setEmail(e.target.value)} value={email} type="email" className='w-full px-3 py-2 border border-gray-800' placeholder='Email' required />
       <input onChange={(e)=>setPassword(e.target.value)} value={[password]} type="password" className='w-full px-3 py-2 border border-gray-800' placeholder='Password' required />
       <div className='w-full flex justify-between text-sm mt-[-8px]'>
-        <p className='cursor-pointer'>Forget your password?</p>
         {
           currentState === 'Login'
-          ? <p onClick={() => setCurrentState('Sign Up')} className='cursor-pointer'>Create account</p>
-          : <p onClick={() => setCurrentState('Login')} className='cursor-pointer'>Login Here</p>
+          ? 
+          <div className='flex justify-between w-full'>
+            <p className='cursor-pointer hover:text-black'>Forget your password?</p>
+            <p onClick={() => setCurrentState('Sign Up')} className='hover:text-black cursor-pointer'>Create account</p>
+          </div>
+          :
+          <div className='flex justify-end w-full'>
+            <p onClick={() => setCurrentState('Login')} className='text-right cursor-pointer hover:text-black'>Login Here</p>
+          </div>
         }
       </div>
       <button className='bg-black text-white font-light px-8 py-2 mt-4'>{currentState === 'Login' ? 'Sign In' : 'Sign Up'}</button>

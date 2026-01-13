@@ -72,6 +72,7 @@ const PlaceOrder = () => {
           }
           break;
           
+        // API calls for Stripe
         case 'stripe':
           const responseStripe = await axios.post(backendUrl + '/api/order/stripe', orderData, { headers: { token } })
           console.log(responseStripe.data.success);
@@ -137,10 +138,6 @@ const PlaceOrder = () => {
             <div onClick={() => setMethod('stripe')} className='flex items-center gap-3 border border-gray-200 p-2 px-3 cursor-pointer'>
               <p className={`min-w-3.5 h-3.5 border border-gray-300 rounded-full ${method === 'stripe' ? 'bg-green-500' : ''}`}></p>
               <img className='h-5 mx-4' src={assets.stripe_logo} alt="" />
-            </div>
-            <div onClick={() => setMethod('razorpay')} className='flex items-center gap-3 border border-gray-200 p-2 px-3 cursor-pointer'>
-              <p className={`min-w-3.5 h-3.5 border border-gray-300 rounded-full ${method === 'razorpay' ? 'bg-green-500' : ''}`}></p>
-              <img className='h-5 mx-4' src={assets.razorpay_logo} alt="" />
             </div>
             <div onClick={() => setMethod('cod')} className='flex items-center gap-3 border border-gray-200 p-2 px-3 cursor-pointer'>
               <p className={`min-w-3.5 h-3.5 border border-gray-300 rounded-full ${method === 'cod' ? 'bg-green-500' : ''}`}></p>
