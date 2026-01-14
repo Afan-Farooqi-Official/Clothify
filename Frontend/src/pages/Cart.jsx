@@ -3,12 +3,29 @@ import {ShopContext} from '../context/ShopContext'
 import Title from '../components/Title'
 import { assets, products } from '../assets/assets'
 import CartTotal from '../components/CartTotal'
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const Cart = () => {
 
   const {products, currency, cartItems, updateQuantity, navigate} = useContext(ShopContext)
 
   const [cartData,setCartData] = useState([])
+
+  const handleCheckout = () => {
+    if (cartData.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
+
+    const token = localStorage.getItem('token')
+    if (!token) {
+      toast.error("Please login before proceeding to checkout."); 
+      return;
+    }
+
+    navigate('/place-order');
+  }
 
   useEffect(()=> {
 
@@ -66,7 +83,12 @@ const Cart = () => {
         <div className='w-full sm:w-[450px]'>
           <CartTotal />
           <div className='w-full text-end'>
-            <button onClick={()=>navigate('/place-order')} className='bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer'>PROCEED TO CHECKOUT</button>
+            <button 
+              onClick={handleCheckout}
+              className='bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer'
+            >
+              PROCEED TO CHECKOUT
+            </button>
           </div>
         </div>
       </div>
