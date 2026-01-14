@@ -37,12 +37,29 @@ const updateCart = async (req, res) => {
         const {userId, itemId, size, quantity} = req.body
 
         const userData = await userModel.findById(userId)
-        let cartData = await userData.cartData
+        let cartData = userData.cartData || {}
+
+        if (!cartData[itemId]) {
+            cartData[itemId] = {}
+        }
 
         cartData[itemId][size] = quantity
 
-        await userModel.findByIdAndUpdate(userId, {cartData})
+        // If quantity <= 0 → remove size
+        if (cartData[itemId][size] <= 0) {
+          delete cartData[itemId][size]
+        }
 
+        // If no sizes left → remove item
+        if (Object.keys(cartData[itemId]).length === 0) {
+          delete cartData[itemId]
+        }
+
+        userData.cartData = cartData
+
+        // Tell Mongoose the nested object changed 
+        userData.markModified("cartData");
+        await userData.save();
         res.json({success: true, message: "Cart Updated"})
 
     } catch (error) {
